@@ -1,0 +1,85 @@
+{
+  "name": "polarln",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "polard (SDK) and polar (CLI) for interating with Polar Lightning programmatically",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
+  "homepage": "https://github.com/bnonni/polarln",
+  "bugs": {
+    "url": "https://github.com/bnonni/polarln/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/bnonni/polarln.git"
+  },
+  "license": "Unlicense license",
+  "contributors": [
+    {
+      "name": "Bryan Nonni",
+      "url": "https://github.com/bnonni"
+    }
+  ],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "polar",
+    "lightning",
+    "polar lightning",
+    "cli",
+    "lightning-network"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "start": "node ./dist/esm/polar.js help",
+    "prepack": "npm run build && chmod +x ./dist/esm/polar.js",
+    "clean": "rimraf dist coverage tests/compiled",
+    "test": "pnpm build && pnpm install:local && /usr/local/bin/polarl version",
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:cjs": "rimraf dist/cjs && tsc -p tsconfig.cjs.json && echo '{\"type\": \"commonjs\"}' > ./dist/cjs/package.json",
+    "build:esm": "rimraf dist dist/types && tsc -p tsconfig.json && chmod +x ./dist/esm/polar.js",
+    "build:tests": "rimraf tests/compiled && tsc -p tests/tsconfig.json",
+    "install:local": "rm -f /usr/local/bin/polarl && npm run build && ln -s $(pwd)/dist/esm/polar.js /usr/local/bin/polarl"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.0.1",
+    "commander": "^12.1.0",
+    "polar": "git+ssh://git@github.com/jamaljsr/polar.git",
+    "scclogger": "^0.1.2"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.0.1",
+    "@types/chai-as-promised": "^8.0.1",
+    "@types/eslint": "^9.6.1",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.5.4",
+    "@typescript-eslint/eslint-plugin": "^8.5.0",
+    "@typescript-eslint/parser": "^8.5.0",
+    "c8": "^10.1.2",
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.14.0",
+    "eslint-plugin-mocha": "^10.5.0",
+    "globals": "^15.11.0",
+    "marked": "^14.1.2",
+    "mocha": "^10.8.2",
+    "mocha-junit-reporter": "^2.2.1",
+    "node-stdlib-browser": "^1.2.1",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.2",
+    "typescript-eslint": "^8.5.0"
+  }
+}
